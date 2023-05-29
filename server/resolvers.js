@@ -24,9 +24,9 @@ export const resolvers = {
 
   Mutation: {
     createJob: async (_root, { input: { title, description } }, context) => {
-      await isAuthenticate(context.auth);
-      const companyId = 'FjcJCHJALA4i'; // TODO: set based on user's company
-      return createJob({ companyId, title, description });
+      const { user } = context;
+      await isAuthenticate(user);
+      return createJob({ companyId: user.companyId, title, description });
     },
     deleteJob: (_root, { id }) => deleteJob(id),
     updateJob: (_root, { input: { id, title, description } }) =>
