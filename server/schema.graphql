@@ -4,6 +4,10 @@ type Query {
   jobs: [Job!]
 }
 
+type Mutation {
+  createJob(input: CreateJobInput!): Job
+}
+
 type Company {
   id: ID!
   name: String!
@@ -17,9 +21,16 @@ Represents a job ad posted to our board.
 """
 type Job {
   id: ID! # returns error if null
-  """The __date__ when the job was published, in ISO-8601 format. E.g `2023-05-29`"""
+  """
+  The __date__ when the job was published, in ISO-8601 format. E.g `2023-05-29`
+  """
   date: String!
   title: String!
   company: Company! # does not make sense to have job with company, that why it must be non-nullable
+  description: String
+}
+
+input CreateJobInput {
+  title: String!
   description: String
 }

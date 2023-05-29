@@ -6,7 +6,27 @@ It uses Apollo Server with Express, and GraphQL-Request and Apollo Client as Gra
 
 ## Server
 
-### Database
+### Scripts
+
+`npm start`
+
+Runs server at http://localhost:4000.
+
+Initialize Apollo Server at: http://localhost:4000/graphql
+
+`npm run db:reset`
+
+Resets database with initial prefilled data.
+
+## Client
+
+### Scripts
+
+`npm start`
+
+Runs application at http://localhost:3000/
+
+## Database
 
 For this project, It's using SQlite 3.
 `./server/data/db.sqlite3` contains the data for this application
