@@ -28,9 +28,18 @@ export const resolvers = {
       await isAuthenticate(user);
       return createJob({ companyId: user.companyId, title, description });
     },
-    deleteJob: (_root, { id }) => deleteJob(id),
-    updateJob: (_root, { input: { id, title, description } }) =>
-      updateJob({ id, title, description }),
+    deleteJob: async (_root, { id }, { user }) => {
+      await isAuthenticate(user);
+      return deleteJob(id, user.companyId);
+    },
+    updateJob: async (
+      _root,
+      { input: { id, title, description } },
+      { user }
+    ) => {
+      await isAuthenticate(user);
+      return updateJob({ id, title, description, companyId: user.companyId });
+    },
   },
 
   Company: {
