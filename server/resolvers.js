@@ -13,16 +13,18 @@ export const resolvers = {
   Query: {
     //root is the parent object, _[name] means that is unused
     company: (_root, args) =>
-      checkNotFound(getCompany(args.id))(
+      checkNotFound(
+        getCompany(args.id),
         `No company found with id=[${args.id}]`
       ),
     job: (_root, args) =>
-      checkNotFound(getJob(args.id))(`No job found with id=[${args.id}]`),
+      checkNotFound(getJob(args.id), `No job found with id=[${args.id}]`),
     jobs: () => getJobs(),
   },
 
   Mutation: {
-    createJob: (_root, { input: { title, description } }) => {
+    createJob: async (_root, { input: { title, description } }, context) => {
+      await isAuthenticate(context.auth);
       const companyId = 'FjcJCHJALA4i'; // TODO: set based on user's company
       return createJob({ companyId, title, description });
     },
@@ -41,14 +43,18 @@ export const resolvers = {
   },
 };
 
-function checkNotFound(req) {
-  return async function (message = 'Not found') {
-    const data = await req;
-    if (!data) {
-      throw new GraphQLError(message, { extensions: { code: 'NOT_FOUND' } });
-    }
-    return data;
-  };
+function isAuthenticate(auth, message = 'Unauthorized request') {
+  if (!auth) {
+    throw new GraphQLError(message, { extensions: { code: 'UNAUTHORIZED' } });
+  }
+  return auth;
+}
+async function checkNotFound(req, message = 'Not found') {
+  const data = await req;
+  if (!data) {
+    throw new GraphQLError(message, { extensions: { code: 'NOT_FOUND' } });
+  }
+  return data;
 }
 
 function toIsoDate(value) {

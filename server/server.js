@@ -20,8 +20,12 @@ const apolloServer = new ApolloServer({
 });
 await apolloServer.start();
 
+function getContext({ req }) {
+  return { auth: req.auth };
+}
+
 // everything regarding apollo will go through this path
-app.use('/graphql', apolloMiddleware(apolloServer));
+app.use('/graphql', apolloMiddleware(apolloServer, { context: getContext }));
 
 app.listen({ port: PORT }, () => {
   console.log(`Server running on port ${PORT}`);
