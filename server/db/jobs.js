@@ -4,8 +4,20 @@ import { generateId } from './ids.js';
 
 const getJobTable = () => connection.table('job');
 
-export async function getJobs() {
-  return await getJobTable().select();
+export async function countJobs() {
+  const { count } = await getJobTable().first().count('* as count');
+  return count;
+}
+
+export async function getJobs(limit, offset) {
+  const query = getJobTable().select().orderBy('createdAt', 'desc');
+  if (limit) {
+    query.limit(limit);
+  }
+  if (offset) {
+    query.offset(offset);
+  }
+  return await query;
 }
 
 export async function getJobsByCompany(companyId) {
@@ -14,7 +26,6 @@ export async function getJobsByCompany(companyId) {
 
 export function createJobsByCompanyLoader() {
   return new DataLoader(async (ids) => {
-    console.log('[jobsByCompanyLoader] ids', ids);
     const jobs = await getJobTable().select().whereIn('companyId', ids);
     return ids.map((id) => jobs.filter((job) => job.companyId === id));
   });

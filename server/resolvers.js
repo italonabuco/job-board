@@ -1,6 +1,7 @@
 import { GraphQLError } from 'graphql';
 import { getCompany } from './db/companies.js';
 import {
+  countJobs,
   createJob,
   deleteJob,
   getJob,
@@ -18,7 +19,11 @@ export const resolvers = {
       ),
     job: (_root, args) =>
       checkNotFound(getJob(args.id), `No job found with id=[${args.id}]`),
-    jobs: () => getJobs(),
+    jobs: async (_root, { limit, offset }) => {
+      const items = await getJobs(limit, offset);
+      const totalCount = await countJobs();
+      return { items, totalCount };
+    },
   },
 
   Mutation: {

@@ -1,7 +1,7 @@
 type Query {
   company(id: ID!): Company
   job(id: ID!): Job
-  jobs: [Job!]
+  jobs(limit: Int, offset: Int): PaginationList
 }
 
 type Mutation {
@@ -41,4 +41,9 @@ input UpdateJobInput {
   id: ID!
   title: String!
   description: String
+}
+
+type PaginationList {
+  items: [Job!]!
+  totalCount: Int!
 }

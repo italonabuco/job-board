@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "start": "nodemon server.js",
-    "db:reset": "node ./scripts/create-db.js"
+    "db:reset": "node ./scripts/create-db.js",
+    "db:insert-jobs": "node ./scripts/insert-50-jobs.js"
   },
   "dependencies": {
     "@apollo/server": "^4.7.1",

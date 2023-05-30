@@ -16,6 +16,10 @@ Initialize Apollo Server at: http://localhost:4000/graphql
 
 Resets database with initial prefilled data.
 
+`npm run db:insert-jobs`
+
+Resets jobs table with 50 new job posts to test pagination
+
 ## Client
 
 ### Scripts
