@@ -6,21 +6,21 @@ import {
   jobsQuery,
 } from './queries';
 
-export function useCompany(id) {
+export function useCompany(id: string) {
   const { data, error, loading } = useQuery(companyByIdQuery, {
     variables: { id },
   });
   return { company: data?.company, loading, error: Boolean(error) };
 }
 
-export function useJob(id) {
+export function useJob(id: string) {
   const { data, error, loading } = useQuery(jobByIdQuery, {
     variables: { id },
   });
   return { job: data?.job, loading, error: Boolean(error) };
 }
 
-export function useJobs(limit, offset) {
+export function useJobs(limit?: number, offset?: number) {
   const { data, error, loading } = useQuery(jobsQuery, {
     fetchPolicy: 'network-only',
     variables: {
@@ -42,7 +42,13 @@ export function useCreateJob() {
     },
   });
 
-  const createJob = async ({ title, description }) => {
+  const createJob = async ({
+    title,
+    description,
+  }: {
+    title: string;
+    description: string;
+  }) => {
     return await mutate({
       variables: { input: { title, description } },
     });
