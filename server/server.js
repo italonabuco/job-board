@@ -7,6 +7,7 @@ import { readFile } from 'node:fs/promises';
 import { resolvers } from './resolvers.js';
 import { getUser } from './db/users.js';
 import { createCompanyLoader } from './db/companies.js';
+import { createJobsByCompanyLoader } from './db/jobs.js';
 
 const PORT = 4000;
 
@@ -26,7 +27,8 @@ async function getContext({ req }) {
   // this way, a new load is going to be available for each request. Avoiding the cache issue.
   // If the data is not supposed to change of system life, we do not need to create a loader for each request.
   const companyLoader = createCompanyLoader();
-  const context = { companyLoader };
+  const jobsByCompanyLoader = createJobsByCompanyLoader();
+  const context = { companyLoader, jobsByCompanyLoader };
   if (req.auth) {
     context.user = await getUser(req.auth.sub);
   }

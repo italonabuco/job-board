@@ -1,3 +1,4 @@
+import DataLoader from 'dataloader';
 import { connection } from './connection.js';
 import { generateId } from './ids.js';
 
@@ -9,6 +10,14 @@ export async function getJobs() {
 
 export async function getJobsByCompany(companyId) {
   return await getJobTable().select().where({ companyId });
+}
+
+export function createJobsByCompanyLoader() {
+  return new DataLoader(async (ids) => {
+    console.log('[jobsByCompanyLoader] ids', ids);
+    const jobs = await getJobTable().select().whereIn('companyId', ids);
+    return ids.map((id) => jobs.filter((job) => job.companyId === id));
+  });
 }
 
 export async function getJob(id) {

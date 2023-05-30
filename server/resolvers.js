@@ -5,7 +5,6 @@ import {
   deleteJob,
   getJob,
   getJobs,
-  getJobsByCompany,
   updateJob,
 } from './db/jobs.js';
 
@@ -43,7 +42,8 @@ export const resolvers = {
   },
 
   Company: {
-    jobs: (company) => getJobsByCompany(company.id),
+    jobs: (company, _args, { jobsByCompanyLoader }) =>
+      jobsByCompanyLoader.load(company.id),
   },
 
   Job: {
