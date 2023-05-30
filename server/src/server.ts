@@ -1,13 +1,13 @@
 import cors from 'cors';
 import express from 'express';
-import { authMiddleware, handleLogin } from './auth.js';
+import { authMiddleware, handleLogin } from './auth.ts';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware as apolloMiddleware } from '@apollo/server/express4';
 import { readFile } from 'node:fs/promises';
-import { resolvers } from './resolvers.js';
-import { getUser } from './db/users.js';
-import { createCompanyLoader } from './db/companies.js';
-import { createJobsByCompanyLoader } from './db/jobs.js';
+import { resolvers } from './resolvers.ts';
+import { getUser } from './db/users.ts';
+import { createCompanyLoader } from './db/companies.ts';
+import { createJobsByCompanyLoader } from './db/jobs.ts';
 
 const PORT = 4000;
 
@@ -28,7 +28,7 @@ async function getContext({ req }) {
   // If the data is not supposed to change of system life, we do not need to create a loader for each request.
   const companyLoader = createCompanyLoader();
   const jobsByCompanyLoader = createJobsByCompanyLoader();
-  const context = { companyLoader, jobsByCompanyLoader };
+  const context: any = { companyLoader, jobsByCompanyLoader };
   if (req.auth) {
     context.user = await getUser(req.auth.sub);
   }

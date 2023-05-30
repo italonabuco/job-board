@@ -1,0 +1,14 @@
+{
+  "extends": "@tsconfig/node18/tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "build",
+    "module": "ES2022",
+    "strict": false,
+    "allowImportingTsExtensions": true,
+    "noEmit": true
+  },
+  "ts-node": {
+    "esm": true
+  }
+}

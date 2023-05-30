@@ -1,5 +1,5 @@
 import { GraphQLError } from 'graphql';
-import { getCompany } from './db/companies.js';
+import { getCompany } from './db/companies.ts';
 import {
   countJobs,
   createJob,
@@ -7,7 +7,7 @@ import {
   getJob,
   getJobs,
   updateJob,
-} from './db/jobs.js';
+} from './db/jobs.ts';
 
 export const resolvers = {
   Query: {
@@ -72,6 +72,6 @@ async function checkNotFound(req, message = 'Not found') {
   return data;
 }
 
-function toIsoDate(value) {
+function toIsoDate(value: string) {
   return value.slice(0, 'yyyy-mm-dd'.length);
 }
