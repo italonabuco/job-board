@@ -6,6 +6,7 @@ import { expressMiddleware as apolloMiddleware } from '@apollo/server/express4';
 import { readFile } from 'node:fs/promises';
 import { resolvers } from './resolvers.js';
 import { getUser } from './db/users.js';
+import { createCompanyLoader } from './db/companies.js';
 
 const PORT = 4000;
 
@@ -22,11 +23,14 @@ const apolloServer = new ApolloServer({
 await apolloServer.start();
 
 async function getContext({ req }) {
+  // this way, a new load is going to be available for each request. Avoiding the cache issue.
+  // If the data is not supposed to change of system life, we do not need to create a loader for each request.
+  const companyLoader = createCompanyLoader();
+  const context = { companyLoader };
   if (req.auth) {
-    const user = await getUser(req.auth.sub);
-    return { user };
+    context.user = await getUser(req.auth.sub);
   }
-  return {};
+  return context;
 }
 
 // everything regarding apollo will go through this path
