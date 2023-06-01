@@ -8,17 +8,15 @@ import {
   getJobs,
   updateJob,
 } from './db/jobs.ts';
+import { Resolvers } from './generated/schema.ts';
 
-export const resolvers = {
+export const resolvers: Resolvers = {
   Query: {
     //root is the parent object, _[name] means that is unused
-    company: (_root, args) =>
-      checkNotFound(
-        getCompany(args.id),
-        `No company found with id=[${args.id}]`
-      ),
+    company: (_root, { id }) =>
+      checkNotFound(getCompany('' + id), `No company found with id=[${id}]`),
     job: (_root, args) =>
-      checkNotFound(getJob(args.id), `No job found with id=[${args.id}]`),
+      checkNotFound(getJob('' + args.id), `No job found with id=[${args.id}]`),
     jobs: async (_root, { limit, offset }) => {
       const items = await getJobs(limit, offset);
       const totalCount = await countJobs();
@@ -34,7 +32,7 @@ export const resolvers = {
     },
     deleteJob: async (_root, { id }, { user }) => {
       await isAuthenticate(user);
-      return deleteJob(id, user.companyId);
+      return deleteJob('' + id, user.companyId);
     },
     updateJob: async (
       _root,
@@ -42,7 +40,12 @@ export const resolvers = {
       { user }
     ) => {
       await isAuthenticate(user);
-      return updateJob({ id, title, description, companyId: user.companyId });
+      return updateJob({
+        id: '' + id,
+        title,
+        description,
+        companyId: user.companyId,
+      });
     },
   },
 
