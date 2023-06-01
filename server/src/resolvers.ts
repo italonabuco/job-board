@@ -9,6 +9,14 @@ import {
   updateJob,
 } from './db/jobs.ts';
 import { Resolvers } from './generated/schema.ts';
+import DataLoader from 'dataloader';
+import { CompanyEntity, JobEntity, UserEntity } from './db/types.ts';
+
+export interface ResolverContext {
+  companyLoader: DataLoader<string, CompanyEntity, string>;
+  jobsByCompanyLoader: DataLoader<string, JobEntity[], string>;
+  user?: UserEntity;
+}
 
 export const resolvers: Resolvers = {
   Query: {

@@ -4,7 +4,7 @@ import { authMiddleware, handleLogin } from './auth.ts';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware as apolloMiddleware } from '@apollo/server/express4';
 import { readFile } from 'node:fs/promises';
-import { resolvers } from './resolvers.ts';
+import { ResolverContext, resolvers } from './resolvers.ts';
 import { getUser } from './db/users.ts';
 import { createCompanyLoader } from './db/companies.ts';
 import { createJobsByCompanyLoader } from './db/jobs.ts';
@@ -23,7 +23,7 @@ const apolloServer = new ApolloServer({
 });
 await apolloServer.start();
 
-async function getContext({ req }) {
+async function getContext({ req }): Promise<ResolverContext> {
   // this way, a new load is going to be available for each request. Avoiding the cache issue.
   // If the data is not supposed to change of system life, we do not need to create a loader for each request.
   const companyLoader = createCompanyLoader();

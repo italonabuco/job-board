@@ -1,5 +1,6 @@
 import { GraphQLResolveInfo } from 'graphql';
 import { CompanyEntity, JobEntity } from '../db/types';
+import { ResolverContext } from '../resolvers';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -198,7 +199,7 @@ export type ResolversParentTypes = {
   UpdateJobInput: UpdateJobInput;
 };
 
-export type CompanyResolvers<ContextType = any, ParentType extends ResolversParentTypes['Company'] = ResolversParentTypes['Company']> = {
+export type CompanyResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Company'] = ResolversParentTypes['Company']> = {
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   jobs?: Resolver<Array<ResolversTypes['Job']>, ParentType, ContextType>;
@@ -206,7 +207,7 @@ export type CompanyResolvers<ContextType = any, ParentType extends ResolversPare
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type JobResolvers<ContextType = any, ParentType extends ResolversParentTypes['Job'] = ResolversParentTypes['Job']> = {
+export type JobResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Job'] = ResolversParentTypes['Job']> = {
   company?: Resolver<ResolversTypes['Company'], ParentType, ContextType>;
   date?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -215,25 +216,25 @@ export type JobResolvers<ContextType = any, ParentType extends ResolversParentTy
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+export type MutationResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createJob?: Resolver<Maybe<ResolversTypes['Job']>, ParentType, ContextType, RequireFields<MutationCreateJobArgs, 'input'>>;
   deleteJob?: Resolver<Maybe<ResolversTypes['Job']>, ParentType, ContextType, RequireFields<MutationDeleteJobArgs, 'id'>>;
   updateJob?: Resolver<Maybe<ResolversTypes['Job']>, ParentType, ContextType, RequireFields<MutationUpdateJobArgs, 'input'>>;
 };
 
-export type PaginationListResolvers<ContextType = any, ParentType extends ResolversParentTypes['PaginationList'] = ResolversParentTypes['PaginationList']> = {
+export type PaginationListResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['PaginationList'] = ResolversParentTypes['PaginationList']> = {
   items?: Resolver<Array<ResolversTypes['Job']>, ParentType, ContextType>;
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+export type QueryResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   company?: Resolver<Maybe<ResolversTypes['Company']>, ParentType, ContextType, RequireFields<QueryCompanyArgs, 'id'>>;
   job?: Resolver<Maybe<ResolversTypes['Job']>, ParentType, ContextType, RequireFields<QueryJobArgs, 'id'>>;
   jobs?: Resolver<Maybe<ResolversTypes['PaginationList']>, ParentType, ContextType, Partial<QueryJobsArgs>>;
 };
 
-export type Resolvers<ContextType = any> = {
+export type Resolvers<ContextType = ResolverContext> = {
   Company?: CompanyResolvers<ContextType>;
   Job?: JobResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
