@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon ./src/server.ts",
     "db:reset": "node ./scripts/create-db.js",
-    "db:insert-jobs": "node ./scripts/insert-50-jobs.js"
+    "db:insert-jobs": "node ./scripts/insert-50-jobs.js",
+    "codegen": "graphql-codegen --config codegen.json"
   },
   "dependencies": {
     "@apollo/server": "^4.7.1",
@@ -21,6 +22,9 @@
     "nanoid": "^4.0.2"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "4.0.0",
+    "@graphql-codegen/typescript": "4.0.0",
+    "@graphql-codegen/typescript-resolvers": "4.0.0",
     "@tsconfig/node18": "^2.0.0",
     "@types/cors": "^2.8.13",
     "nodemon": "^2.0.22",
